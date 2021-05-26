@@ -5,9 +5,9 @@ public class App
 {
     public static void main( String[] args ) throws Exception
     {
-        CreditoSystem miSystem = new CreditoSystem();
+        CreditoSystem miSistema = new CreditoSystem();
 
-        miSystem.iniciar();
+        miSistema.iniciar();
 
     }
 }

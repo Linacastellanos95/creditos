@@ -6,9 +6,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
-import ar.com.ada.creditos.entities.Cliente;
-import ar.com.ada.creditos.excepciones.ClienteDNIException;
-import ar.com.ada.creditos.managers.ClienteManager;
+import ar.com.ada.creditos.entities.*;
+import ar.com.ada.creditos.excepciones.*;
+import ar.com.ada.creditos.managers.*;
 
 public class CreditoSystem {
 
