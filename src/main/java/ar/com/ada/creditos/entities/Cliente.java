@@ -1,12 +1,15 @@
 package ar.com.ada.creditos.entities;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.*;
 
 import org.hibernate.annotations.NaturalId;
 
 import ar.com.ada.creditos.excepciones.*;
+
 
 @Entity
 @Table (name = "cliente")
@@ -29,6 +32,12 @@ public class Cliente {
     @Column(name = "fecha_nacimiento")
     @Temporal(TemporalType.DATE) //SOLO Poner esto si no queremos manejar HORA en el DB Server.
     private Date fechaNacimiento;
+
+    // de 1 a muchos --> Signifa que cada prestamo va a tener 1 cliente 
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+    private List<Prestamo> prestamos = new ArrayList<>();
+
+   
 
     public Cliente(String nombre){
         this.nombre = nombre;
@@ -92,6 +101,16 @@ public class Cliente {
         this.fechaNacimiento = fechaNacimiento;
     }
 
+    public List<Prestamo> getPrestamos() {
+        return prestamos;
+    }
 
+    public void setPrestamos(List<Prestamo> prestamos) {
+        this.prestamos = prestamos;
+    }
+
+    public void agregarPrestamo(Prestamo prestamo){
+        this.prestamos.add(prestamo);
+    }
 
 }
