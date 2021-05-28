@@ -16,12 +16,14 @@ public class CreditoSystem {
     public static Scanner Teclado = new Scanner(System.in);
 
     protected ClienteManager creditos = new ClienteManager();
+    protected PrestamoManager prestamos = new PrestamoManager();
 
     public void iniciar() throws Exception {
 
         try {
 
             creditos.setup();
+            prestamos.setup();
 
             printOpciones();
 
@@ -54,6 +56,10 @@ public class CreditoSystem {
                     case 5:
                         listarPorNombre();
                         break;
+
+                    case 6:
+                        listarPrestamo();
+                        break;
                     
                     default:
                        System.out.println("La opción no es correcta.");
@@ -69,6 +75,7 @@ public class CreditoSystem {
             }
              // Hagoun safe exit del manager
             creditos.exit();
+            prestamos.exit();
 
         } catch (Exception e) {
             //TODO: handle exception
@@ -242,6 +249,15 @@ public class CreditoSystem {
         }
     }
 
+    public void listarPrestamo(){
+        List<Prestamo> todos = prestamos.buscarTodos();
+        for (Prestamo p : todos) {
+            mostrarPrestamo(p);
+        }
+    }
+
+
+
     public void listarPorNombre() {
 
         System.out.println("Ingrese el nombre:");
@@ -267,14 +283,22 @@ public class CreditoSystem {
         System.out.println(" Fecha Nacimiento: " + fechaNacimientoStr);
     }
 
+    public void mostrarPrestamo(Prestamo prestamo) {
+
+        System.out.println("Prestamo Id: " + prestamo.getPrestamoId() + " Cliente: " + prestamo.getCliente()  
+              + " Fecha del prestamo: " + prestamo.getFecha() + " Importe: " + prestamo.getImporte()  
+              + " Cuotas: " + prestamo.getCuotas() + " Fecha de alta: " + prestamo.getFechaAlta());
+    }
+
     public static void printOpciones() {
         System.out.println("=======================================");
         System.out.println("");
         System.out.println("1. Para agregar un cliente.");
         System.out.println("2. Para eliminar un cliente.");
         System.out.println("3. Para modificar un cliente.");
-        System.out.println("4. Para ver el listado.");
+        System.out.println("4. Para ver el listado de clientes.");
         System.out.println("5. Buscar un cliente por nombre especifico(SQL Injection)).");
+        System.out.println("6. Para ver el listado de prestamos.");
         System.out.println("0. Para terminar.");
         System.out.println("");
         System.out.println("=======================================");
