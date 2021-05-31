@@ -2,12 +2,16 @@ package ar.com.ada.creditos;
 
 import java.math.BigDecimal;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.persistence.Id;
+
 import ar.com.ada.creditos.entities.*;
+import ar.com.ada.creditos.entities.Prestamo.EstadoPrestamoEnum;
 import ar.com.ada.creditos.excepciones.*;
 import ar.com.ada.creditos.managers.*;
 
@@ -60,6 +64,11 @@ public class CreditoSystem {
                     case 6:
                         listarPrestamo();
                         break;
+
+                    case 7:
+                        agregarPrestamo();
+                        break;
+                    
                     
                     default:
                        System.out.println("La opción no es correcta.");
@@ -119,6 +128,7 @@ public class CreditoSystem {
         prestamo.setFecha(new Date());
         prestamo.setFechaAlta(new Date());
         prestamo.setCliente(cliente);
+        prestamo.setEstadoId(EstadoPrestamoEnum.APROBADO);
 
         creditos.create(cliente);
 
@@ -274,6 +284,7 @@ public class CreditoSystem {
         System.out.print("Id: " + cliente.getClienteId() + " Nombre: " + cliente.getNombre() + " DNI: "
                 + cliente.getDni() + " Domicilio: " + cliente.getDireccion());
 
+
         if (cliente.getDireccionAlternativa() != null)
             System.out.print(" Alternativo: " + cliente.getDireccionAlternativa());
 
@@ -290,6 +301,38 @@ public class CreditoSystem {
               + " Cuotas: " + prestamo.getCuotas() + " Fecha de alta: " + prestamo.getFechaAlta());
     }
 
+    public void agregarPrestamo() throws ParseException {
+    System.out.println("Ingrese DNI del cliente");
+    int dni = Teclado.nextInt(); 
+    Teclado.nextLine();
+  
+        Cliente clienteEncontrado = creditos.readByDNI(dni);
+
+        if (clienteEncontrado == null) {
+        System.out.println("Cliente no encontrado.");
+           return;
+        }
+    Prestamo prestamo = new Prestamo();
+    prestamo.setCliente(clienteEncontrado);
+    System.out.println("Ingrese el monto del prestamo");
+    prestamo.setImporte(Teclado.nextBigDecimal());
+    System.out.println("Ingrese el número de cuotas");
+    prestamo.setCuotas(Teclado.nextInt());
+    Teclado.nextLine();
+    System.out.println("Ingrese la fecha de cuando solicito el prestamo");
+    Date fecha = null;
+    DateFormat dateformatoArgentina = new SimpleDateFormat("dd/mm/yy");
+    fecha = dateformatoArgentina.parse(Teclado.nextLine());
+    prestamo.setFecha(fecha);
+    prestamo.setFechaAlta(new Date());
+
+    prestamos.create(prestamo);
+    System.out.println("El prestamo se agrego exitosamente al " + clienteEncontrado);
+
+
+
+    }
+
     public static void printOpciones() {
         System.out.println("=======================================");
         System.out.println("");
@@ -297,8 +340,9 @@ public class CreditoSystem {
         System.out.println("2. Para eliminar un cliente.");
         System.out.println("3. Para modificar un cliente.");
         System.out.println("4. Para ver el listado de clientes.");
-        System.out.println("5. Buscar un cliente por nombre especifico(SQL Injection)).");
+        System.out.println("5. Buscar un cliente por nombre especifico(SQL Injection).");
         System.out.println("6. Para ver el listado de prestamos.");
+        System.out.println("7. Para agregar un prestamo a un cliente existente.");
         System.out.println("0. Para terminar.");
         System.out.println("");
         System.out.println("=======================================");
