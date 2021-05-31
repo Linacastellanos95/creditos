@@ -16,6 +16,7 @@ import ar.com.ada.creditos.entities.*;
 public class PrestamoManager {
 
     protected SessionFactory sessionFactory;
+    private Prestamo prestamo;
 
     public void setup() {
 
@@ -37,55 +38,55 @@ public class PrestamoManager {
         sessionFactory.close();
     }
 
-    public void create(Cliente cliente) {
+    public void create(Prestamo prestamo) {
 
         Session session = sessionFactory.openSession();
         session.beginTransaction();
 
-        session.save(cliente);
+        session.save(prestamo);
 
 
         session.getTransaction().commit();
         session.close();
     }
 
-    public Cliente read(int clienteId) {
+    public Prestamo read(int prestamoId) {
         Session session = sessionFactory.openSession();
 
-        Cliente cliente = session.get(Cliente.class, clienteId);
+        Prestamo prestamo = session.get(Prestamo.class, prestamoId);
 
         session.close();
 
-        return cliente;
+        return prestamo;
     }
 
-    public Cliente readByDNI(int dni) {
+    public Prestamo readByDNI(int dni) {
         Session session = sessionFactory.openSession();
 
-        Cliente cliente = session.byNaturalId(Cliente.class).using("dni", dni).load();
+        Prestamo prestamo = session.byNaturalId(Prestamo.class).using("dni", dni).load();
 
         session.close();
 
-        return cliente;
+        return prestamo;
     }
 
-    public void update(Cliente cliente) {
+    public void update(Prestamo prestamo) {
 
         Session session = sessionFactory.openSession();
         session.beginTransaction();
 
-        session.update(cliente);
+        session.update(prestamo);
 
         session.getTransaction().commit();
         session.close();
     }
 
-    public void delete(Cliente cliente) {
+    public void delete(Prestamo prestamo) {
 
         Session session = sessionFactory.openSession();
         session.beginTransaction();
 
-        session.delete(cliente);
+        session.delete(prestamo);
 
         session.getTransaction().commit();
         session.close();

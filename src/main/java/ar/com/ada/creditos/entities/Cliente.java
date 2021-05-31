@@ -34,7 +34,7 @@ public class Cliente {
     private Date fechaNacimiento;
 
     // de 1 a muchos --> Signifa que cada prestamo va a tener 1 cliente 
-    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<Prestamo> prestamos = new ArrayList<>();
 
    
